@@ -53,7 +53,7 @@ class A1,A2,A3,A4,A5,A6,B1,B2,B3,B4,B5,B6 borderless
 
 click A3 "/csymapp/mermaid-c4-model/blob/master/containerDiagram.md" "booksSystem"
 
-'legend
+
 classDef borderless stroke-width:0px
 classDef darkBlue fill:#00008B, color:#fff
 classDef brightBlue fill:#6082B6, color:#fff
