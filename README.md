@@ -1,5 +1,9 @@
 # mermaid
 
+## Link to rendered in github pages
+https://pauljeanquart.github.io/mermaid/
+
+## Embedded in this markdown file
 ```mermaid
 flowchart TB
 classDef borderless stroke-width:0px
