@@ -29,10 +29,26 @@ erDiagram
 ```
 
 ```mermaid
-
+---
+title: Entity Models in Code (Class)
+---
+classDiagram
+    class Order{
+        +int OrderId
+        +int CustomerId
+        +datetime Date
+        +string Status
+        +ICollection<Detail> Details
+    }
+    class Detail{
+        -int DetailId
+        -int OrderId
+        -int ItemId
+        -decimal Price
+        -int Quantity
+        -Order Order
+    }
 ```
-
-
 
 ```mermaid
 ---
