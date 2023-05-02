@@ -30,9 +30,14 @@ erDiagram
 
 ```mermaid
 ---
-title: Entity Models in Code (Class)
+title: Entity Models in Code (c# Class)
 ---
 classDiagram
+    class Customer{
+        +CustomerId
+        +Name
+        +Address
+    }
     class Order{
         +int OrderId
         +int CustomerId
@@ -41,19 +46,70 @@ classDiagram
         +ICollection<Detail> Details
     }
     class Detail{
-        -int DetailId
-        -int OrderId
-        -int ItemId
-        -decimal Price
-        -int Quantity
+        +int DetailId
+        +int OrderId
+        +int ItemId
+        +decimal Price
+        +int Quantity
         -Order Order
     }
 ```
 
+[Strongly Typed - Query - multiple returned](https://dapper-tutorial.net/result-strongly-typed#example-query)
 ```mermaid
----
-title: Dapper - Strongly Typed - https://dapper-tutorial.net/result-strongly-typed
----
+sequenceDiagram
+
+box rgba(60,60,60,.05) Server 
+    participant Repository
+    participant Dapper
+end
+participant Database
+    Repository->>+Dapper: (Strongly Typed) Query - more than 1 record returned
+        Note over Repository,Dapper: With strongly typed, a type parameter is passed in,<br> it rerpesents the type being mapped and returned.<br> Query<Order><br>Order is a c-sharp class (model) in our code
+        Note over Repository,Dapper: Query<Order>("SELECT * FROM Order")
+        Dapper->>Database: Query
+          Note over Dapper,Database: SELECT *<br>FROM Order
+        Database->>Dapper: Result Set
+          Note over Dapper,Database: OrderId,CustomerId,Date,Status<br>1,5,2023-04-26,New<br>2,7,2023-04-22,Pending
+    Dapper->>-Repository: Result Set to list/collection of object.
+      Note over Dapper,Repository: [<br> {<br>"OrderId": 1,<br>"CustomerId": 5,<br>"Date": "2023-04-26",<br>"Status": "New"<br>},{<br>"OrderId": 2,<br>"CustomerId": 7,<br>"Date": "2023-04-24",<br>"Status": "Pending"<br>}<br>]
+```
+
+[Strongly Typed - QuerySingle - one returned](https://dapper-tutorial.net/result-strongly-typed#example-querysingle)
+```mermaid
+sequenceDiagram
+    Repository->>+Dapper: (Strongly Typed) QuerySingle - 1 record returned
+        Note over Repository,Dapper: id = 1<br>QuerySingle<Order>(<br>"SELECT * FROM Order WHERE OrderID = @id",<br>new {id})
+        Dapper->>Database: Query
+          Note over Dapper,Database: declare @id=1<br>SELECT *<br>FROM Order<br>WHERE OrderId = @id
+        Database->>Dapper: Result Set
+          Note over Dapper,Database: OrderId,CustomerId,Date,Status<br>1,5,2023-04-26,New
+    Dapper->>-Repository: Result Set to object.
+      Note over Dapper,Repository: {<br>"OrderId": 1,<br>"CustomerId": 5,<br>"Date": "2023-04-26",<br>"Status": "New"<br>}
+```
+
+[Multi-Mapping - One to One - multiple returned](https://dapper-tutorial.net/result-multi-mapping#example-query-multi-mapping-one-to-one)
+```mermaid
+sequenceDiagram
+
+box rgba(60,60,60,.05) Server 
+    participant Repository
+    participant Dapper
+end
+participant Database
+    Repository->>+Dapper: (Strongly Typed) Query - more than 1 record returned
+        Note over Repository,Dapper: With strongly typed, a type parameter is passed in,<br> it rerpesents the type being mapped and returned.<br> Query<Order><br>Order is a c-sharp class (model) in our code
+        Note over Repository,Dapper: Query<Order>("SELECT * FROM Order")
+        Dapper->>Database: Query
+          Note over Dapper,Database: SELECT Order.*, '' AS id, Customer.*<br>FROM Order<br>INNER JOIN Customer<br>ON Customer.CustomerId = Order.CustomerId;
+        Database->>Dapper: Result Set
+          Note over Dapper,Database: OrderId,CustomerId,Date,Status,id,CustomerId,Name,Address<br>1,5,2023-04-26,New,,5,Robin Harris,123 Main St OKC OK,<br>2,7,2023-04-22,Pending,,7,Bill Black,456 S Avenue Tulsa OK
+    Dapper->>-Repository: Result Set to list/collection of object.
+      Note over Dapper,Repository: [<br> {<br>"OrderId": 1,<br>"CustomerId": 5,<br>"Date": "2023-04-26",<br>"Status": "New"<br>},{<br>"OrderId": 2,<br>"CustomerId": 7,<br>"Date": "2023-04-24",<br>"Status": "Pending"<br>}<br>]
+```
+
+
+```mermaid
 sequenceDiagram
 
 box rgba(60,60,60,.05) Server 
@@ -71,24 +127,6 @@ participant Database
           Note over Dapper,Database: OrderId,CustomerId,Date,Status<br>1,5,2023-04-26,New<br>2,7,2023-04-22,Pending
     Dapper->>-Repository: Result Set to list/collection of object.
       Note over Dapper,Repository: [<br> {<br>"OrderId": 1,<br>"CustomerId": 5,<br>"Date": "2023-04-26",<br>"Status": "New"<br>},{<br>"OrderId": 2,<br>"CustomerId": 7,<br>"Date": "2023-04-24",<br>"Status": "Pending"<br>}<br>]
-
-```
-
-```mermaid
----
-title: Dapper - Strongly Typed - https://dapper-tutorial.net/result-strongly-typed
----
-sequenceDiagram
-
-    Repository->>+Dapper: (Strongly Typed) QuerySingle - 1 record returned
-        Note over Repository,Dapper: id = 1<br>QuerySingle<Order>(<br>"SELECT * FROM Order WHERE OrderID = @id",<br>new {id})
-        Dapper->>Database: Query
-          Note over Dapper,Database: declare @id=1<br>SELECT *<br>FROM Order<br>WHERE OrderId = @id
-        Database->>Dapper: Result Set
-          Note over Dapper,Database: OrderId,CustomerId,Date,Status<br>1,5,2023-04-26,New
-    Dapper->>-Repository: Result Set to object.
-      Note over Dapper,Repository: {<br>"OrderId": 1,<br>"CustomerId": 5,<br>"Date": "2023-04-26",<br>"Status": "New"<br>}
-
 ```
 
 ```mermaid
