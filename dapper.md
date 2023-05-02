@@ -1,10 +1,43 @@
 ```mermaid
+---
+title: Database Tables
+---
+erDiagram
+
+    CUSTOMER ||--o{ ORDER : places
+    CUSTOMER {
+         int CustomerId
+         string Name
+         string Address
+    }
+    
+    ORDER ||--|{ DETAIL : contains
+    ORDER {
+        int OrderId
+        int CustomerId
+        date Date
+        string Status
+    }
+
+    DETAIL {
+        int DetailId
+        int OrderId
+        int ItemId
+        int Quantity
+        decimal Price
+    }
+```
+
+```mermaid
 
 ```
 
 
 
 ```mermaid
+---
+title: Dapper - Strongly Typed
+---
 sequenceDiagram
 
 box rgba(60,60,60,.05) Server 
