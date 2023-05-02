@@ -43,6 +43,7 @@ classDiagram
         +int CustomerId
         +datetime Date
         +string Status
+        +Customer Customer
         +ICollection<Detail> Details
     }
     class Detail{
@@ -99,7 +100,7 @@ end
 participant Database
     Repository->>+Dapper: (Strongly Typed) Query - more than 1 record returned
         Note over Repository,Dapper: With strongly typed, a type parameter is passed in,<br> it rerpesents the type being mapped and returned.<br> Query<Order><br>Order is a c-sharp class (model) in our code
-        Note over Repository,Dapper: Query<Order>("SELECT * FROM Order")
+        Note over Repository,Dapper: Query<Order,Customer,Order>(sql, <br>(order,customer)=>{<br>order.Customer=customer<br>return order<br>})
         Dapper->>Database: Query
           Note over Dapper,Database: SELECT Order.*, '' AS id, Customer.*<br>FROM Order<br>INNER JOIN Customer<br>ON Customer.CustomerId = Order.CustomerId;
         Database->>Dapper: Result Set
