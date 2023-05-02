@@ -98,12 +98,11 @@ title: Dapper - Strongly Typed - https://dapper-tutorial.net/result-multi-mappin
 sequenceDiagram
 
     Repository->>+Dapper: Multi-Mapping - one to one - with more than one record returned
-        Note over Repository,Dapper: Query<Order,Detail,Order>(<br>"SELECT * FROM Order WHERE OrderID = @id",<br>new {id})
-        Note over Repository,Dapper: With multi mapping Query<Order>
+        Note over Repository,Dapper: Query<Order,Detail,Order>(<br>"SELECT * FROM Order LEFT OUTER JOIN Detail ON Detail.OrderId = Ordder.OrderId WHERE OrderID = @id",<br>new {id})
         Dapper->>Database: Query
-          Note over Dapper,Database: declare @id=1<br>SELECT *<br>FROM Order<br>WHERE OrderId = @id
+          Note over Dapper,Database: declare @id=1<br>SELECT *<br>LEFT OUTER JOIN Detail ON Detail.OrderId = Ordder.OrderId<br>FROM Order<br>WHERE OrderId = @id
         Database->>Dapper: Result Set
-          Note over Dapper,Database: OrderId,CustomerId,Date,Status<br>1,5,2023-04-26,New
+          Note over Dapper,Database: OrderId,CustomerId,Date,Status,DetailId,OrderId,ItemId,Quantity,Price<br>1,5,2023-04-26,New,1,1,99,2,.50<br>1,5,2023-04-26,New,2,1,77,1,2.50
     Dapper->>-Repository: Result Set to object.
-      Note over Dapper,Repository: {<br>"OrderId": 1,<br>"CustomerId": 5,<br>"Date": "2023-04-26",<br>"Status": "New"<br>}
+      Note over Dapper,Repository: {<br>"OrderId": 1,<br>"CustomerId": 5,<br>"Date": "2023-04-26",<br>"Status": "New"<br>"Details": [{<br>"DetailId": 1,<br>"OrderId": 1,<br>"ItemId": 99,<br>"Quantity": 2,<br>"Price": .50<br>},{<br>"DetailId": 2,<br>"OrderId": 1,<br>"ItemId": 77,<br>"Quantity": 1,<br>"Price": 2.50<br>}] }
 ```
