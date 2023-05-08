@@ -58,6 +58,7 @@ classDiagram
 
 [Strongly Typed - Query - multiple returned](https://dapper-tutorial.net/result-strongly-typed#example-query)
 ```mermaid
+%%{init:{ "theme": "dark", "noteAlign": "left", "messageAlign": "left" } }%%
 sequenceDiagram
 
 box rgba(60,60,60,.05) Server 
@@ -78,6 +79,7 @@ participant Database
 
 [Strongly Typed - QuerySingle - one returned](https://dapper-tutorial.net/result-strongly-typed#example-querysingle)
 ```mermaid
+%%{init:{ "theme": "dark", "noteAlign": "left", "messageAlign": "left" } }%%
 sequenceDiagram
     Repository->>+Dapper: (Strongly Typed) QuerySingle - 1 record returned
         Note over Repository,Dapper: id = 1<br>QuerySingle<Order>(<br>"SELECT * FROM Order WHERE OrderID = @id",<br>new {id})
@@ -91,6 +93,7 @@ sequenceDiagram
 
 [Multi-Mapping - One to One - multiple returned](https://dapper-tutorial.net/result-multi-mapping#example-query-multi-mapping-one-to-one)
 ```mermaid
+%%{init:{ "theme": "dark", "noteAlign": "left", "messageAlign": "left" } }%%
 sequenceDiagram
 
 box rgba(60,60,60,.05) Server 
@@ -108,9 +111,9 @@ participant Database
     Dapper->>-Repository: Result Set to list/collection of object.
       Note over Dapper,Repository: [<br> {<br>"OrderId": 1,<br>"CustomerId": 5,<br>"Date": "2023-04-26",<br>"Status": "New"<br>},{<br>"OrderId": 2,<br>"CustomerId": 7,<br>"Date": "2023-04-24",<br>"Status": "Pending"<br>}<br>]
 ```
-
-
+[Multi-Mapping - One to Many - multiple returned](https://dapper-tutorial.net/result-multi-mapping#example-query-multi-mapping-one-to-many)
 ```mermaid
+%%{init:{ "theme": "dark", "noteAlign": "left", "messageAlign": "left" } }%%
 sequenceDiagram
 
 box rgba(60,60,60,.05) Server 
@@ -131,9 +134,7 @@ participant Database
 ```
 
 ```mermaid
----
-title: Dapper - Strongly Typed - https://dapper-tutorial.net/result-multi-mapping
----
+%%{init:{ "theme": "dark", "noteAlign": "left", "messageAlign": "left" } }%%
 sequenceDiagram
 
     Repository->>+Dapper: Multi-Mapping - one to one - with more than one record returned
