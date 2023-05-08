@@ -133,6 +133,7 @@ participant Database
       Note over Dapper,Repository: [<br> {<br>"OrderId": 1,<br>"CustomerId": 5,<br>"Date": "2023-04-26",<br>"Status": "New"<br>},{<br>"OrderId": 2,<br>"CustomerId": 7,<br>"Date": "2023-04-24",<br>"Status": "Pending"<br>}<br>]
 ```
 
+[Multi-Result](https://dapper-tutorial.net/result-multi-result)
 ```mermaid
 %%{init:{ "theme": "dark", "noteAlign": "left", "messageAlign": "left" } }%%
 sequenceDiagram
