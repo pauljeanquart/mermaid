@@ -76,5 +76,3 @@ class Legend3 gray
 class Legend4 gray2
 
 ```
-
-.
